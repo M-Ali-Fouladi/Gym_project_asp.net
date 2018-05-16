@@ -153,10 +153,7 @@ namespace bashgah.Controllers
             
             return View(json.ToList());
         }
-        public ActionResult here()
-        {
-            return View();
-        }
+       
 
         [HttpGet]
         public ActionResult putapi(int id, string name, string birthdate)
