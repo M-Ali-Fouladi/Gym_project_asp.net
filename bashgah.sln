@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bashgah", "bashgah\bashgah.csproj", "{301B538D-E133-4BC2-A067-E2794CA8F93B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{301B538D-E133-4BC2-A067-E2794CA8F93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301B538D-E133-4BC2-A067-E2794CA8F93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301B538D-E133-4BC2-A067-E2794CA8F93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301B538D-E133-4BC2-A067-E2794CA8F93B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB45B90D-5931-4197-8CC2-E43E86697FF1}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,73 @@
+﻿@model IEnumerable <bashgah.Models.viewmodel>
+@{
+    ViewBag.Title = "test";
+}
+
+<h2>test</h2>
+
+<div>
+    <h4>customer</h4>
+    <hr />
+ 
+     
+        <table>
+            <tr>
+                <th>
+
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.family)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Idd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.time)
+                </th>
+                
+            </tr>
+            @{
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.name)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.family)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Idd)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.date)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.time)
+
+                </td>
+            </tr>
+}
+            }
+        </table>
+
+</div>
+<p>
+   
+</p>

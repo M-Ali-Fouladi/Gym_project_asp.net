@@ -1,0 +1,105 @@
+﻿@{
+
+    Layout = null;
+
+}
+<script src="@Url.Content("~/Scripts/kendo/2017.3.1018/angular.min.js")"></script>
+<script src="~/Scripts/AngularController/Home.js"></script>
+<div>
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        .red {
+            background-color:red;
+        }
+
+        .green {
+            background-color:green;
+        }
+   
+        .tableData {
+            border-left: solid 1px #D8C3C3;
+            border-top: solid 1px #D8C3C3;
+        }
+
+
+
+            .tableData tr {
+            }
+
+
+
+            .tableData td, .tableData th {
+                border-right: solid 1px #D8C3C3;
+                border-bottom: solid 1px #D8C3C3;
+                text-align: left;
+                padding: 5px;
+            }
+
+
+
+            .tableData td {
+            }
+
+
+
+            .tableData th {
+                background-color: #FAFAFA;
+                padding: 7px 5px;
+                border-bottom-color: #9C9C9C;
+            }
+
+
+
+        .odd {
+            background-color: #f3f3f3;
+        }
+
+
+
+        .even {
+            background-color: #ffffff;
+        }
+    </style>
+
+</div>
+
+<div ng-app="Homeapp">
+
+    <div ng-controller="HomeController">
+
+        <table class="tableData">
+
+            <tr>
+
+                <th >Id</th>
+
+                <th>Name</th>
+
+                <th>Family</th>
+
+
+            </tr>
+
+            <tr ng-repeat="e in regdata" ng-class="{'red':e.Id<4,'green':e.Id>5}">
+
+
+                <td>{{e.Id}}</td>
+
+                <td>{{e.name}}</td>
+
+                <td>{{e.family}}</td>
+                <td>  <input type="button" value="Edit" />  </td>
+                <td>  <input type="button" value="Delete" />  </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<bashgah.Models.user>
+@{
+    ViewBag.Title = "test";
+}
+
+<h2>test</h2>
+
+<div>
+    <h4>users</h4>
+    <hr />
+
+
+    <table>
+        <tr>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.birthdate)
+            </th>
+
+
+        </tr>
+        @{
+        foreach (var item in Model)
+        {
+            @Html.HiddenFor(model => item.Id)
+        <tr>
+
+            <td>
+                @Html.DisplayFor(model => item.name)
+
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.birthdate)
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit User", "putapi", new { id = item.Id, name = item.name, birthdate = item.birthdate });
+            </td>
+            <td>
+                @Html.ActionLink("Delete User", "Delapi", new { id = item.Id, name = item.name, birthdate = item.birthdate });
+            </td>
+
+        </tr>
+    }
+        }
+    </table>
+
+</div>
+<p>
+
+</p>
