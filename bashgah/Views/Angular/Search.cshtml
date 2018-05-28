@@ -1,0 +1,155 @@
+﻿
+<style>
+    
+</style>
+
+<div class="container" ng-app="sortApp" ng-controller="mainController" ng-init="GetAllData()">
+    <div class="alert alert-info">
+        <p>Sort Type: {{ sortType }}</p>
+        <p>Sort Reverse: {{ sortReverse }}</p>
+        <p>Search Query: {{ searchFish }}</p>
+
+    </div>
+
+    <form>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+               @* search string : if you input your string in text the string goes to $scope.searchfis   *@
+                <input type="text" class="form-control" placeholder="Search " ng-model="searchFish">
+                @* <input type="text" class="form-control" placeholder="Search " ng-model="birth">*@
+                
+    @* button for get,post data *@
+                <button type="button" ng-click="GetAllData()">Click Me!</button>
+                <button type="button" ng-click="search(sdate,edate)">search</button>
+                  
+                
+                <input type="text" id="sdate" onclick="PersianDatePicker.Show(this, '1366/03/22')" class="form-control">
+                <input type="text" id="edate" onclick="PersianDatePicker.Show(this, '1366/03/22')" class="form-control">
+
+
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'Id'; sortReverse = !sortReverse">
+                        Id
+                        <span ng-show="sortType == 'Id' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'Id' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                        Name
+                        <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="#" ng-click="sortType = 'birthdate'; sortReverse = !sortReverse">
+                        Birthdate
+                        <span ng-show="sortType == 'birthdate' && !sortReverse" class="fa fa-caret-down"></span>
+                        <span ng-show="sortType == 'birthdate' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                </td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="user in users | orderBy:sortType:sortReverse | filter:searchFish">
+
+                <td ng-if="user.birthdate == '@ViewBag.persian'" style="background-color:red">{{ user.Id }}  </td>
+                <td ng-if="user.birthdate != '@ViewBag.persian'">{{ user.Id }}</td>
+                <td ng-if="user.birthdate ==  '@ViewBag.persian' " style="background-color:red">{{ user.name }}</td>
+                <td ng-if="user.birthdate != '@ViewBag.persian'">{{ user.name }}</td>
+                <td ng-if="user.birthdate == '@ViewBag.persian'  " style="background-color:red">{{ user.birthdate }}</td>
+                <td ng-if="user.birthdate != '@ViewBag.persian' ">{{ user.birthdate }}</td>
+
+            </tr>
+        </tbody>
+
+    </table>
+
+    <p class="text-center text-muted">
+        <a href="#" target="_blank">Read the Tutorial</a>
+    </p>
+
+    <p class="text-center">
+        by <a href="https://scotch.io" target="_blank">scotch.io</a>
+    </p>
+
+</div>
+<script>
+            //$scope.sortType = 'name'; // set the default sort type
+            //$scope.sortReverse = false;  // set the default sort order
+            //$scope.searchFish = '';     // set the default search/filter term
+            var app = angular.module("sortApp", []);
+            app.controller("mainController", function ($scope, $http) {
+              
+                debugger;
+                $scope.sdate = $('#sdate').val();
+                $scope.edate = $('#edate').val();
+                $scope.GetAllData = function () {
+                $http({
+                    method: "get",
+                    url: "http://localhost:50002/Angular/users_Read"
+                }).then(function (response) {
+                   
+                    //$scope.birth = document.getElementById("pdate").value;
+                    //set birth in tag condition td
+                    $scope.users = response.data;
+                     
+                }, function () {
+                    alert("Error Occur");
+                })
+                };
+             
+                $scope.search = function (sdate,edate) {
+                    $http({
+                        url: 'http://localhost:50002/Angular/SaveComments',
+                        method: "POST",
+                        data: { 'sdate': sdate, 'edate': edate }
+                    })
+                        .then(function (response) {
+                            // success
+                            
+                        },
+                        function (response) { // optional
+                            // failed
+                            alert("Error Occur");
+                        });
+                }
+
+
+    })
+</script>
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnSaveComments').click(function () {
+            var sdate = $('#sdate').val();
+            var edate = $('#edate').val();
+
+            $.ajax({
+                url: "SaveComments",
+                data: { 'sdate': sdate, 'edate': edate },
+                type: "post",
+                cache: false,
+                success: function (savingStatus) {
+                    // $('#lblCommentsNotification').text(savingStatus);
+                    alert(savingStatus);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#lblCommentsNotification').text("Error encountered while saving the comments.");
+                }
+            });
+        });
+    });
+
+    </script>*@
+

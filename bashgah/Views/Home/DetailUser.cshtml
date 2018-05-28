@@ -1,55 +1,104 @@
-﻿@model IEnumerable<bashgah.Models.user>
+﻿@*@model IEnumerable<bashgah.Models.user>*@
 @{
     ViewBag.Title = "test";
 }
 
-<h2>test</h2>
 
-<div>
-    <h4>users</h4>
-    <hr />
+<h4>users</h4>
+<hr />
 
 
-    <table>
+@*<table class="row">
         <tr>
-
-
-            <th>
+            <th class="col-md-4">
                 @Html.DisplayNameFor(model => model.name)
             </th>
-            <th>
+            <th class="col-md-1">
                 @Html.DisplayNameFor(model => model.birthdate)
             </th>
-
+            <th class="col-md-3">f</th>
+            <th class="col-md-3">ff</th>
 
         </tr>
         @{
-        foreach (var item in Model)
-        {
-            @Html.HiddenFor(model => item.Id)
-        <tr>
+            foreach (var item in Model)
+            {
+                @Html.HiddenFor(model => item.Id)
+                <tr>
 
-            <td>
-                @Html.DisplayFor(model => item.name)
+                    <td class="col-md-4">
+                        @Html.DisplayFor(model => item.name)
 
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.birthdate)
+                    </td>
+                    <td class="col-md-1">
+                        @Html.DisplayFor(model => item.birthdate)
 
-            </td>
-            <td>
-                @Html.ActionLink("Edit User", "putapi", new { id = item.Id, name = item.name, birthdate = item.birthdate });
-            </td>
-            <td>
-                @Html.ActionLink("Delete User", "Delapi", new { id = item.Id, name = item.name, birthdate = item.birthdate });
-            </td>
+                    </td>
 
-        </tr>
-    }
+                    <td class="col-md-3">
+                        @Html.ActionLink("Edit User", "putapi", new { id = item.Id, name = item.name, birthdate = item.birthdate })
+                    </td>
+
+                    <td class="col-md-3">
+                        @Html.ActionLink("Delete User", "Delapi", new { id = item.Id, name = item.name, birthdate = item.birthdate })
+                    </td>
+
+
+                </tr>
+            }
         }
-    </table>
-
+    </table>*@
+<div class="container">
+    <div class="row">
+        @(Html.Kendo().Grid<bashgah.Models.user>()
+            .Name("Grid")
+            .Columns(columns =>
+            {
+               // columns.Bound(p => p.Id);
+                columns.Bound(p => p.name).Width(140);
+                columns.Bound(p => p.birthdate).Width(140);
+                columns.Command(command => command.Destroy()).Width(150);
+            })
+            .ToolBar(toolbar =>
+            {
+                toolbar.Create();
+                toolbar.Save();
+            })
+            .Editable(editable => editable.Mode(GridEditMode.InCell))
+            .Pageable()
+            .Navigatable()
+            .Sortable()
+            .Scrollable()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .PageSize(20)
+                .ServerOperation(false)
+                .Events(events => events.Error("error_handler"))
+                .Model(model => model.Id(p => p.Id))
+                .Create("users_create", "Home")
+                .Read("users_Read", "Home")
+                .Update("users_update", "Home")
+                .Destroy("users_delete", "Home")
+            )
+        )
+    </div>
 </div>
-<p>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
 
-</p>
+
+

@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<style>
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+</style>
+<div ng-app="myApp">
+    <div ng-controller="myCtrl" ng-init="GetAllData()" class="divList">
+        <p class="divHead">List of usere</p>
+        <table cellpadding="12" class="table table-bordered table-hover">
+            <tr>
+                <td>
+                    <b>ID</b>
+                </td>
+                <td>
+                    <b>Name</b>
+                </td>
+                <td>
+                    <b>birthdate</b>
+                </td>
+            </tr>
+            <tr ng-repeat="user in users">
+                <td>
+                    {{user.Id}}
+                </td>
+                <td>
+                    {{user.name}}
+                </td>
+                <td>
+                    {{user.birthdate}}
+                </td>
+             
+                <td>
+                    <input type="button" class="btn btn-warning" value="Update" ng-click="UpdateUser(user)" />
+                    <input type="button" class="btn btn-danger" value="Delete" ng-click="DeleteUser(user)" />
+                </td>
+            </tr>
+        </table>
+        <div class="form-horizontal" role="form">
+            <div class="container">
+                <div class="row">
+                    <h2>
+                        <span id="spn">Add New usere</span>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Name:</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="inputEmail" placeholder="Name" ng-model="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">birthdate:</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="inputPassword" placeholder="City" ng-model="birthdate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <input type="button" id="btnSave" class="form-control btn-space" value="Submit" ng-click="InsertData()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Hidden("Id")
+
+</div>
+<script>
+    var app = angular.module("myApp", []);
+    app.controller("myCtrl", function ($scope, $http) {
+        debugger;
+        $scope.InsertData = function () {
+            var Action = document.getElementById("btnSave").getAttribute("value");
+            if (Action == "Submit") {
+                $scope.user = {};
+                $scope.user.Id = $scope.Id;
+                $scope.user.name = $scope.name;
+                $scope.user.birthdate = $scope.birthdate;
+                $http({
+                    method: "post",
+                    url: "http://localhost:50002/Angular/users_create",
+                    datatype: "json",
+                    data: JSON.stringify($scope.user)
+                }).then(function (response) {
+                    alert(response.data);
+                    $scope.GetAllData();
+                    $scope.Id = "";
+                    $scope.name = "";
+                    $scope.birthdate = "";
+                })
+            } else {
+                $scope.user = {};
+                $scope.user.name = $scope.name;
+                $scope.user.birthdte = $scope.birthdate;
+                $scope.user.Id = document.getElementById("Id").value;
+                $http({
+                    method: "post",
+                    url: "http://localhost:50002/Angular/users_update",
+                    datatype: "json",
+                    data: JSON.stringify($scope.user)
+                }).then(function (response) {
+                    alert(response.data);
+                    $scope.GetAllData();
+                    $scope.name = "";
+                    $scope.birthdate = "";
+                    document.getElementById("btnSave").setAttribute("value", "Submit");
+                    document.getElementById("btnSave").style.backgroundColor = "cornflowerblue";
+                    document.getElementById("spn").innerHTML = "Add New user";
+                })
+            }
+        }
+        $scope.GetAllData = function () {
+            $http({
+                method: "get",
+                url: "http://localhost:50002/Angular/users_Read"
+            }).then(function (response) {
+                $scope.users = response.data;
+            }, function () {
+                alert("Error Occur");
+            })
+        };
+        $scope.DeleteUser = function (user) {
+            $http({
+                method: "post",
+                url: "http://localhost:50002/Angular/users_delete",
+                datatype: "json",
+                data: JSON.stringify(Emp)
+            }).then(function (response) {
+                alert(response.data);
+                $scope.GetAllData();
+            })
+        };
+        $scope.UpdateUser = function (user) {
+            document.getElementById("Id").value = user.Id;
+            $scope.name = user.name;
+            $scope.birthdate = user.birthdate;
+            document.getElementById("btnSave").setAttribute("value", "Update");
+            document.getElementById("btnSave").style.backgroundColor = "Yellow";
+            document.getElementById("spn").innerHTML = "Update usere Information";
+        }
+    })  
+</script>
+

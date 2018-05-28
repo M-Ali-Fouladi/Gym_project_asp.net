@@ -1,59 +1,113 @@
-﻿<!DOCTYPE html>
-<html>
+﻿
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>@ViewBag.Title - My Kendo UI MVC Application</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.common-bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="~/Content/PersianDatePicker.min.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
 
-
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2017.3.1018/jquery.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/kendo/2017.3.1018/angular.min.js")"></script>
-    @*<script src="@Url.Content("~/Scripts/kendo/2017.3.1018/jszip.min.js")"></script>*@
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="@Url.Content("~/Scripts/kendo/2017.3.1018/kendo.all.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo/2017.3.1018/angular.min.js")"></script>
+    <script src="~/Scripts/kendo/2017.3.1018/kendo.web.min.js"></script>
+    <script src="~/Scripts/kendo/2017.3.1018/kendo.aspnetmvc.min.js"></script>
+    @*<script src="@Url.Content("~/Scripts/kendo/2017.3.1018/jszip.min.js")"></script>*@
+
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/PersianDatePicker.js"></script>
     <script src="~/Scripts/PersianDatePicker.min.js"></script>
 
 
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/css/simple-sidebar.css" rel="stylesheet" />
+
+
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
+    @*<link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.common-bootstrap.min.css")" rel="stylesheet" type="text/css" />*@
+    @*<link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />*@
+    @*<link href="@Url.Content("~/Content/kendo/2017.3.1018/kendo.bootstrap.min.css")" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/kendo/2017.3.1018/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2017.3.1018/kendo.common.min.css" rel="stylesheet" />
+
+
+    @*<link href="~/Content/bootstrap-grid.css" rel="stylesheet" />*@
+    @*<link href="~/Content/bootstrap-grid.min.css" rel="stylesheet" />*@
+
+    <link href="~/Content/PersianDatePicker.min.css" rel="stylesheet" />
+
+
 </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <nav>
-                        <ul id="menu">
-                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                            <li>@Html.ActionLink("Create User", "postapi", "Home")</li>
-                            <li>@Html.ActionLink("Users Detail", "DetailUser", "Home")</li>
-
-
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Start Bootstrap
+                    </a>
+                </li>
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Shortcuts</a>
+                </li>
+                <li>
+                    <a href="#">Overview</a>
+                </li>
+                <li>
+                    <a href="#">Events</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
         </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1>Simple Sidebar</h1>
+                <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Toggle Menu</a>
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div id="container-fluid">
+                @RenderSection("featured", required: false)
+                <section class="content-wrapper main-content clear-fix">
 
-        <footer>
-			<div class="content-wrapper">
-				<div class="float-left">
-					<p>Copyright &copy; @DateTime.Now.Year Progress Software Corporation and/or its subsidiaries or affiliates. All Rights Reserved.</p>
-				</div>
-			</div>
-		</footer>
-    </body>
+                    @RenderBody()
+                </section>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    @*<script src="~/vendor/jquery/jquery.min.js"></script>*@
+  
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });</script>
+</body>
 </html>

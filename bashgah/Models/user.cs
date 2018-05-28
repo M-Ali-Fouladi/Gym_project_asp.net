@@ -14,5 +14,6 @@ namespace bashgah.Models
         public string name { get; set; }
 
         public string birthdate { get; set; }
+        public DateTime birth { get; set; }
     }
 }

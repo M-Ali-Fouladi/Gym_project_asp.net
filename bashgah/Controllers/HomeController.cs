@@ -12,6 +12,8 @@ using System.Net;
 using Quartz;
 using System.Data.SqlClient;
 using WhatsAppApi;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace bashgah.Controllers
 {
@@ -47,36 +49,36 @@ namespace bashgah.Controllers
 
         //--------------------using join tables -------------------------------------------------------------------------
         [HttpGet]
-        public ActionResult test()
-        {
+        //public ActionResult test()
+        //{
 
-            //var selectjoin = from viewmodels in db.viewmodels join 
-            //     customers in db.customers on viewmodels.Id equals customers.Id 
-            //     join  registers in db.registers on customers.Id equals registers.CustomerId
-            //                 select viewmodels;
+        //    //var selectjoin = from viewmodels in db.viewmodels join 
+        //    //     customers in db.customers on viewmodels.Id equals customers.Id 
+        //    //     join  registers in db.registers on customers.Id equals registers.CustomerId
+        //    //                 select viewmodels;
 
-            IEnumerable<viewmodel> selectjoin = (from e in db.customers.AsEnumerable()
-                                                 join j in db.registers.AsEnumerable() on e.Id equals j.CustomerId
-                                                 select new viewmodel()
-                                                 {
-                                                     Id = e.Id,
-                                                     name = e.name,
-                                                     family = e.family,
-                                                     Idd = j.Id,
-                                                     date = j.date,
-                                                     time = j.time
+        //    IEnumerable<viewmodel> selectjoin = (from e in db.customers.AsEnumerable()
+        //                                         join j in db.registers.AsEnumerable() on e.Id equals j.CustomerId
+        //                                         select new viewmodel()
+        //                                         {
+        //                                             Id = e.Id,
+        //                                             name = e.name,
+        //                                             family = e.family,
+        //                                             Idd = j.Id,
+        //                                             date = j.date,
+        //                                             time = j.time
 
-                                                 });
-            //var se = Mapper.Map<IEnumerable<customer>>(db.customers.ToList());
-            return View(selectjoin);
-        }
+        //                                         });
+        //    //var se = Mapper.Map<IEnumerable<customer>>(db.customers.ToList());
+        //    return View(selectjoin);
+        //}
 
-        [HttpGet]
-        public ActionResult create()
-        {
+        //[HttpGet]
+        //public ActionResult create()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
 
         //------------------------------------ using auto mapper to map objects ---------------------------------------------
         [HttpPost]
@@ -130,6 +132,7 @@ namespace bashgah.Controllers
             return View();
         }
 
+        
         [HttpPost]
         public async Task<ActionResult> postapi(user model)
         {
@@ -144,16 +147,93 @@ namespace bashgah.Controllers
             return RedirectToAction("DetailUser");
         }
 
-        public async Task <ActionResult> DetailUser()
+        public   ActionResult DetailUser()
+        {
+          //  var response = await client.GetAsync("http://www.iranaspweb.ir/api/usersController");
+
+           // var json = response.Content.ReadAsAsync<IEnumerable<user>>().Result.ToList();//serialize
+                    //TodoItem item = JsonConvert.DeserializeObject<TodoItem>(json);//deserilize
+            return View();
+           // return Json(json,JsonRequestBehavior.AllowGet); 
+        }
+
+     
+        public async Task  <ActionResult> users_Read([DataSourceRequest] DataSourceRequest request)
         {
             var response = await client.GetAsync("http://www.iranaspweb.ir/api/usersController");
-
             var json = response.Content.ReadAsAsync<IEnumerable<user>>().Result.ToList();//serialize
             //TodoItem item = JsonConvert.DeserializeObject<TodoItem>(json);//deserilize
+            // return Json(json,JsonRequestBehavior.AllowGet);
             
-            return View(json.ToList());
+            DataSourceResult result = json.ToDataSourceResult(request);
+            return Json(result);
+
         }
-       
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public async Task <ActionResult> users_create([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable <user> users)
+        {
+            user model = new user();
+            foreach (var item in users)
+            {
+                model.name = item.name;
+                model.birthdate = item.birthdate;
+
+            }
+            var results = new List <viewmodel>();
+            //model.birthdate = convertDate(model.birthdate);
+           
+            if (users != null && ModelState.IsValid)
+            {
+                var response = await client.PostAsJsonAsync("http://www.iranaspweb.ir/api/usersController", model);
+            }
+
+            return Json(results.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public async Task <ActionResult> users_update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<user> users)
+        {
+            if (users != null && ModelState.IsValid)
+            {
+                foreach (var model in users)
+                {
+                    var response = await client.PutAsJsonAsync("http://www.iranaspweb.ir/api/usersController" + "/" + model.Id, model);
+                }
+            }
+
+            return Json(users.ToDataSourceResult(request, ModelState));
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public async Task <ActionResult> users_delete([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<user> users)
+        {
+            if (users.Any())
+            {
+                foreach (var model in users)
+                {
+                    var response = await client.DeleteAsync("http://www.iranaspweb.ir/api/usersController" + "/" + model.Id);
+                }
+            }
+
+            return Json(users.ToDataSourceResult(request, ModelState));
+        }
+
+
+
+        private static IEnumerable<viewmodel> getuser()
+        {
+            var db = new bcontext5();
+            
+            IEnumerable<viewmodel> select= (from p in db.users.AsEnumerable()
+                                            select new viewmodel
+                                            {
+                                                name = p.name,
+                                                birthdate = p.birthdate
+                                            });
+            return select;
+
+        }
 
         [HttpGet]
         public ActionResult putapi(int id, string name, string birthdate)

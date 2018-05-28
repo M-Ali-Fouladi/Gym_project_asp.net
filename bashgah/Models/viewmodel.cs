@@ -12,12 +12,7 @@ namespace bashgah.Models
     {
         public int Id { get; set; }
         public string name { get; set; }
-        public string family { get; set; }
-
-
-        public int Idd { get; set; }
-        public string date { get; set; }
-        public string time { get; set; }
+        public string birthdate { get; set; }
 
 
       

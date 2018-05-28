@@ -16,7 +16,7 @@ namespace bashgah
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "DetailUser", id = UrlParameter.Optional }
+                defaults: new { controller = "Angular", action = "search", id = UrlParameter.Optional }
             );
         }
     }

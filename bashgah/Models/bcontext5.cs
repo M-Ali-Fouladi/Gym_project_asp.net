@@ -16,7 +16,7 @@ namespace bashgah.Models
         }
         public DbSet<customer> customers { get; set; }
         public DbSet<Register> registers { get; set; }
-
+      
         public DbSet<TodoItem> Todoitems { get; set; }
         public class selectModel
         {
